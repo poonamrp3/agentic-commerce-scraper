@@ -19,13 +19,13 @@ async def process_site_phase1(idx, site, brand, graph, results, semaphore):
     # 1. Pre-check cache to avoid opening a browser at all!
     cached_plan = get_cached_strategy(site)
     if cached_plan:
-        print(f"⚡ [Phase 1] {idx}: {site} -> Strategy loaded instantly from Cache!")
+        print(f"\n⚡ [Phase 1] {idx}: {site} -> Strategy loaded instantly from Cache!")
         results[site] = {"status": "success", "analysis": cached_plan}
         return
 
     # 2. If no cache, acquire a semaphore lock to prevent launching 30+ browsers at once
     async with semaphore:
-        print(f"▶️ [Phase 1] {idx}: {site} -> Launching browser and analyzing...")
+        print(f"\n▶️ [Phase 1] {idx}: {site} -> Launching browser and analyzing...")
         initial_state = {
             "brand": brand,
             "domain": site,
@@ -59,7 +59,7 @@ async def process_site_phase1(idx, site, brand, graph, results, semaphore):
 async def process_site_phase2(idx, site, brand, saved_plan, graph, final_summary, semaphore):
     """Executes the extraction phase for a site concurrently and headlessly."""
     async with semaphore:
-        print(f"▶️ [Phase 2: Execution] {idx}: {site} ...")
+        print(f"\n▶️ [Phase 2: Execution] {idx}: {site} ...")
         
         execution_state = {
             "brand": brand,
@@ -130,26 +130,22 @@ async def run_scraper(brand: str):
         
     await asyncio.gather(*tasks)
 
-    successful_sites = []
-    for site, data in results.items():
-        if data["status"] == "success":
-            analysis = data.get("analysis", {})
-            if analysis and analysis.get("method") == "search_bar":
-                successful_sites.append(site)
-                
-    top_sites = successful_sites
+    # --- REMOVED FILTER: RUN ALL SITES IN PHASE 2 ---
+    top_sites = sites
     
-    print("\n" + "=" * 80)
-    print(f"🚀 PHASE 2: Concurrent Execution on ALL {len(top_sites)} Successful Sites")
+    print("\n\n" + "=" * 80)
+    print(f"🚀 PHASE 2: Concurrent Execution on ALL {len(top_sites)} Sites")
     print("=" * 80)
     
     final_summary = {}
     phase2_semaphore = asyncio.Semaphore(5)
     phase2_tasks = []
     
-    # Run Phase 2 concurrently for production scale!
+    # Run Phase 2 concurrently for all 29 sites!
     for idx, site in enumerate(top_sites):
-        saved_plan = results[site]["analysis"]
+        # If Phase 1 failed, pass a dummy unsupported plan so it fails gracefully in Phase 2
+        site_data = results.get(site, {})
+        saved_plan = site_data.get("analysis") if site_data.get("status") == "success" else {"method": "unsupported"}
         phase2_tasks.append(process_site_phase2(idx+1, site, brand, saved_plan, graph, final_summary, phase2_semaphore))
         
     await asyncio.gather(*phase2_tasks)
@@ -180,7 +176,10 @@ async def run_scraper(brand: str):
             unique_offers = {f"{c.get('code')}-{c.get('title')}": c for c in codes}.values()
             clean_summary[site] = list(unique_offers)
             total_extracted += len(unique_offers)
-            print(f"{site} - Found {len(unique_offers)} offers")
+            
+            # Print the actual alphanumeric codes to the terminal so the user sees them!
+            offer_codes = [c.get('code') for c in unique_offers if c.get('code')]
+            print(f"{site} - Found {len(unique_offers)} offers: {offer_codes}")
         else:
             clean_summary[site] = []
             print(f"{site} - No codes retrieved")
@@ -205,7 +204,10 @@ async def run_scraper(brand: str):
         "offers": clean_summary
     }
     
-    output_file = "offers.json"
+    import os
+    os.makedirs("output", exist_ok=True)
+    output_file = f"output/{brand.lower()}_offers.json"
+    
     try:
         with open(output_file, "w", encoding="utf-8") as f:
             json.dump(output_data, f, indent=4)

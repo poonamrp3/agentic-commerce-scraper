@@ -43,19 +43,29 @@ class SiteAnalyzerAgent:
             ("user", "Here is the interactive HTML structure of {domain}:\n\n<untrusted_content>\n{html}\n</untrusted_content>\n\nAnalyze this HTML. What is the exact CSS selector for the cookie accept button (if any), the search input, and the submit button?\n\n{format_instructions}")
         ])
 
-    async def analyze(self, domain: str, brand: str, pruned_html: str) -> dict:
+    async def analyze(self, domain: str, brand: str, pruned_html: str, max_retries: int = 2) -> dict:
         logger.info(f"Analyzing {domain} to find the best strategy for '{brand}'...")
         
         # Build the chain using the output parser
         chain = self.prompt | self.llm | self.parser
         
-        # Invoke the LLM
-        result = await chain.ainvoke({
-            "domain": domain,
-            "brand": brand,
-            "html": pruned_html,
-            "format_instructions": self.parser.get_format_instructions()
-        })
-        
-        # Return as dict so LangGraph can easily store it in its state
-        return result.dict()
+        for attempt in range(max_retries):
+            try:
+                # Invoke the LLM
+                result = await chain.ainvoke({
+                    "domain": domain,
+                    "brand": brand,
+                    "html": pruned_html,
+                    "format_instructions": self.parser.get_format_instructions()
+                })
+                return result.dict()
+            except Exception as e:
+                logger.warning(f"Analysis attempt {attempt + 1} failed for {domain}: {e}")
+                if attempt < max_retries - 1:
+                    import asyncio
+                    backoff = 2 ** attempt
+                    logger.info(f"Retrying LLM analysis for {domain} in {backoff} seconds...")
+                    await asyncio.sleep(backoff)
+                else:
+                    logger.error(f"Max retries exhausted for {domain} LLM analysis.")
+                    raise e

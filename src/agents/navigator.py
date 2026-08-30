@@ -56,26 +56,35 @@ class NavigatorAgent:
         else:
             await route.continue_()
 
-    async def navigate(self, domain: str) -> Optional[Page]:
-        """Navigate to a site and return the live Page object."""
+    async def navigate(self, domain: str, max_retries: int = 2) -> Optional[Page]:
+        """Navigate to a site and return the live Page object, with retry and backoff."""
         if not self.context:
             await self.start()
             
         url = domain if domain.startswith("http") else f"https://{domain}"
-        logger.info(f"Navigating to {url}...")
         
-        page = await self.context.new_page()
-        try:
-            # Changed to networkidle so JS-rendered search bars appear
-            await page.goto(url, timeout=45000, wait_until="networkidle")
-            # Extra buffer for aggressive lazy-loading
-            await page.wait_for_timeout(2000) 
-            logger.info(f"Successfully loaded {url}")
-            return page
-        except Exception as e:
-            logger.error(f"Failed to navigate to {url}: {e}")
-            await page.close()
-            return None
+        for attempt in range(max_retries):
+            logger.info(f"Navigating to {url} (Attempt {attempt + 1}/{max_retries})...")
+            
+            page = await self.context.new_page()
+            try:
+                # Changed to networkidle so JS-rendered search bars appear
+                await page.goto(url, timeout=45000, wait_until="networkidle")
+                # Extra buffer for aggressive lazy-loading
+                await page.wait_for_timeout(2000) 
+                logger.info(f"Successfully loaded {url}")
+                return page
+            except Exception as e:
+                logger.error(f"Attempt {attempt + 1} failed to navigate to {url}: {e}")
+                await page.close()
+                
+                if attempt < max_retries - 1:
+                    backoff = 2 ** attempt  # 1s, 2s backoff
+                    logger.info(f"Retrying {url} in {backoff} seconds...")
+                    await asyncio.sleep(backoff)
+                else:
+                    logger.error(f"Max retries exhausted for {url}. Moving on.")
+                    return None
 
     async def close(self):
         """Clean up resources."""

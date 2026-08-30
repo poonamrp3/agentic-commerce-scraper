@@ -1,0 +1,180 @@
+{
+    "brand": "adidas",
+    "metrics": {
+        "coverage_percent": 6.896551724137931,
+        "throughput_rpm": 6.579905523986589,
+        "estimated_cost_usd": 0.435,
+        "projection_10k_usd": 150.0
+    },
+    "offers": {
+        "wired.com": [],
+        "cupones.es": [],
+        "sparwelt.de": [],
+        "couponbox.com": [],
+        "i-reductions.ch": [],
+        "pepper.pl": [],
+        "promocodius.es": [],
+        "promopro.co.uk": [
+            {
+                "code": "20OFFPIX5",
+                "title": "20OFFPIX5",
+                "type": "coupon",
+                "expiry": null
+            },
+            {
+                "code": "WEEK20",
+                "title": "WEEK20",
+                "type": "coupon",
+                "expiry": null
+            },
+            {
+                "code": "NEW10",
+                "title": "NEW10",
+                "type": "coupon",
+                "expiry": null
+            },
+            {
+                "code": "VOB-WCBK-PTHT-K7XP-F5R5",
+                "title": "VOB-WCBK-PTHT-K7XP-F5R5",
+                "type": "coupon",
+                "expiry": null
+            },
+            {
+                "code": "VOB-U7Y8-QFAV-XTXX-RHPX",
+                "title": "VOB-U7Y8-QFAV-XTXX-RHPX",
+                "type": "coupon",
+                "expiry": null
+            },
+            {
+                "code": "FREE20",
+                "title": "FREE20",
+                "type": "coupon",
+                "expiry": null
+            },
+            {
+                "code": "ADICLUB",
+                "title": "ADICLUB",
+                "type": "coupon",
+                "expiry": null
+            },
+            {
+                "code": "PROMO20",
+                "title": "PROMO20",
+                "type": "coupon",
+                "expiry": null
+            },
+            {
+                "code": "SAVE20",
+                "title": "SAVE20",
+                "type": "coupon",
+                "expiry": null
+            },
+            {
+                "code": "SCHOOL",
+                "title": "SCHOOL",
+                "type": "coupon",
+                "expiry": null
+            },
+            {
+                "code": "MHSADP19",
+                "title": "MHSADP19",
+                "type": "coupon",
+                "expiry": null
+            },
+            {
+                "code": "code30",
+                "title": "code30",
+                "type": "coupon",
+                "expiry": null
+            },
+            {
+                "code": "EXTRA10",
+                "title": "EXTRA10",
+                "type": "coupon",
+                "expiry": null
+            },
+            {
+                "code": "SNEAKERS25",
+                "title": "SNEAKERS25",
+                "type": "coupon",
+                "expiry": null
+            },
+            {
+                "code": "UNIQ",
+                "title": "UNIQ",
+                "type": "coupon",
+                "expiry": null
+            },
+            {
+                "code": "3XBN-ECW9-PBVW-8X4J",
+                "title": "3XBN-ECW9-PBVW-8X4J",
+                "type": "coupon",
+                "expiry": null
+            },
+            {
+                "code": "25SALE",
+                "title": "25SALE",
+                "type": "coupon",
+                "expiry": null
+            },
+            {
+                "code": "EXTRA20",
+                "title": "EXTRA20",
+                "type": "coupon",
+                "expiry": null
+            },
+            {
+                "code": "EXTRA30",
+                "title": "EXTRA30",
+                "type": "coupon",
+                "expiry": null
+            },
+            {
+                "code": "8PJC-MLDY-PRH3-CJPM",
+                "title": "8PJC-MLDY-PRH3-CJPM",
+                "type": "coupon",
+                "expiry": null
+            },
+            {
+                "code": "P78E-9JF4-KUPQ-8AQV",
+                "title": "P78E-9JF4-KUPQ-8AQV",
+                "type": "coupon",
+                "expiry": null
+            }
+        ],
+        "dobrekupony.cz": [],
+        "australian-coupons.com.au": [],
+        "couponbirds.com": [],
+        "vouchercodes.co.uk": [],
+        "alekupony.pl": [],
+        "myvouchercodes.co.uk": [],
+        "rabattcode.de": [],
+        "lovecoupons.com.au": [],
+        "gutegutscheine.ch": [],
+        "bravosleva.cz": [],
+        "bravodescuento.es": [],
+        "bravovoucher.co.uk": [],
+        "lareduction.ch": [],
+        "bravodeal.com": [],
+        "everysaving.com.au": [],
+        "kuponka.cz": [],
+        "trustdeals.de": [
+            {
+                "code": "MDJT",
+                "title": "20% Rabatt auf die neuesten Styles von Adidas und Adidas Originals",
+                "type": "coupon",
+                "expiry": null
+            },
+            {
+                "code": "NVRU",
+                "title": "Verwenden Sie unseren Gutschein, um bei adidas 5% Rabatt zu erhalten",
+                "type": "coupon",
+                "expiry": null
+            }
+        ],
+        "lareduction.fr": [],
+        "acties.nl": [],
+        "dziennik.pl": [],
+        "kortingscode.nl": []
+    }
+}

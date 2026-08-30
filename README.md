@@ -25,12 +25,17 @@ Residential proxies charge by the gigabyte. A single coupon page loads megabytes
 Scraped HTML is treated as hostile input. A compromised site could plant hidden `<div>` tags instructing the LLM to output fake codes or ignore previous instructions.
 **The Solution:** To neutralize this, the HTML is sandboxed within `<untrusted_content>` delimiters in the prompt. The System Prompt contains strict override directives ensuring that the Agent ignores any commands attempting to hijack the pipeline from within those tags.
 
-## 6. Scale Plan & Cost Model
+## 6. Scale Plan, Resilience & Cost Model
 * **Concurrency:** The pipeline utilizes `asyncio.Semaphore` to decouple planning from execution. It runs batches of headless browsers concurrently, making it highly horizontally scalable.
+* **Transient Failure Resilience (Retry/Backoff):** Scraping is inherently flaky at scale. The system explicitly isolates and retries environmental failures (proxy drops, timeouts in the `Navigator`) and API hiccups (JSON parse failures in the `SiteAnalyzer`) using an exponential backoff loop capped at 2 iterations. This prevents transient network issues from killing a 10,000-brand batch, while the strict 2-attempt cap guarantees we don't blindly burn proxy bandwidth on genuinely dead domains.
 * **Cost Saving (Caching):** The Site Analyzer's LLM planning phase is cached to disk. If the layout of `promopro.co.uk` was solved once, future brand queries bypass the LLM entirely, dropping cost-per-row significantly.
 * **Math:** At roughly $0.01 for the LLM token usage (pruned HTML) and $0.005 for proxy bandwidth (HTML only) per site, the estimated cost is ~$0.015 per brand/site combination. Projecting to 10,000 rows, the operational cost would be ~$150.
 
-## 7. Coverage Results and Failure Analysis
+## 7. Determinism & DOM Ordering
+The assessment explicitly requires determinism (a re-run must yield the same codes). While the LLMs are locked to `temperature=0` to prevent hallucination, relying purely on an LLM to select the "next" button from a pruned HTML string introduces a subtle risk: if the HTML parser serializes the DOM in a slightly different order, the LLM might select a different candidate.
+**The Mitigation:** To enforce strict determinism, the system uses a stateful memory guardrail (`clicked_selectors`) to rule out past decisions. However, for a production V2, the ideal architecture completely decouples *classification* from *ranking*. The LLM's job should shrink to purely classifying candidates ("is this a coupon button?"), while a deterministic Python script strictly clicks the valid candidates in raw, top-to-bottom DOM order. By defining this intellectual boundary, we guarantee that the LLM's non-deterministic nature never leaks into the traversal routing.
+
+## 8. Coverage Results and Failure Analysis
 The system successfully executed the autonomous loop. On sites where genuine alphanumeric codes existed (e.g., `promopro.co.uk`), the Extractor successfully parsed the DOM and extracted 20+ valid codes.
 **Honest Failures & Discoveries:**
 1. **Affiliate Traps:** Sites like `trustdeals.de` do not host alphanumeric codes, utilizing "Get Deal" auto-apply redirects instead. The Agent correctly identified these as `dead_end`s and safely aborted the loop rather than polluting the dataset with false positives or getting lost on the brand's checkout page.
