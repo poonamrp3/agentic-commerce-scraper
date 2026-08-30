@@ -32,6 +32,8 @@
 ---
 
 ## 1. Architecture
+> **Note:** Please refer to the `architecture_diagram.md` file in this repository (or the attached image) for a complete visual flowchart of this system's pipeline.
+
 This system is an **Agentic Pipeline** built on **LangGraph**, utilizing Python's `asyncio` for high-throughput concurrency and Playwright for headless browser execution. 
 
 Rather than relying on brittle, hardcoded CSS selectors (which break when sites update), the system uses LLMs to dynamically generate extraction strategies. The pipeline consists of a state machine orchestrating four specialized agents:
