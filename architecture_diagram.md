@@ -1,14 +1,14 @@
 # Agentic Commerce Scraper - Architecture
 
-Complete architectural flow of the system. 
+Complete architectural flow of the system.
 
 ```mermaid
 flowchart TD
-    %% Styling
-    classDef llm fill:#f9d0c4,stroke:#333,stroke-width:2px;
-    classDef playwright fill:#d4e6f1,stroke:#333,stroke-width:2px;
-    classDef data fill:#d5f5e3,stroke:#333,stroke-width:2px;
-    classDef cache fill:#fcf3cf,stroke:#333,stroke-width:2px;
+    %% Styling (Optimized for both Light and Dark modes)
+    classDef llm fill:#f9d0c4,stroke:#333,stroke-width:2px,color:#000;
+    classDef playwright fill:#d4e6f1,stroke:#333,stroke-width:2px,color:#000;
+    classDef data fill:#d5f5e3,stroke:#333,stroke-width:2px,color:#000;
+    classDef cache fill:#fcf3cf,stroke:#333,stroke-width:2px,color:#000;
 
     %% Inputs
     subgraph Inputs ["1. Data Ingestion"]
