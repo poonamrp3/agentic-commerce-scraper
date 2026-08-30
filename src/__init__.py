@@ -1,0 +1,1 @@
+# Curatte Agentic Coupon Scraper

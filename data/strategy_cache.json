@@ -1,0 +1,152 @@
+{
+    "cupones.es": {
+        "timestamp": 1788079923.001788,
+        "strategy": {
+            "reasoning": "I evaluated the provided HTML structure of cupones.es to identify cookie banners and search elements.\n\n1. Cookie Consent Banner: Looking at the DOM tree, there is a cookie consent element with `id=\"onetrust-consent-sdk\"`. Inside this container, there is an accept button `button#onetrust-accept-btn-handler` with the text 'Aceptar todas las cookies'. Therefore, the exact CSS selector for accepting cookies is `#onetrust-accept-btn-handler`.\n\n2. Search Input & Button: Looking at the primary header section, there is a search form `<form class=\"HeaderSearch_form__4Okyg\" role=\"search\">`. Inside this form, there is a text input `<input id=\"header-search-input\" name=\"search\" type=\"search\" ...>` and a submit button `<button class=\"HeaderSearch_submit__c3H8T\" type=\"submit\" aria-label=\"Buscar\">`. Thus, the search input selector is `#header-search-input` and the submit button selector is `form.HeaderSearch_form__4Okyg button[type=\"submit\"]` (or `.HeaderSearch_submit__c3H8T`).",
+            "cookie_accept_selector": "#onetrust-accept-btn-handler",
+            "method": "search_bar",
+            "search_input_selector": "#header-search-input",
+            "search_button_selector": "form.HeaderSearch_form__4Okyg button[type=\"submit\"]"
+        }
+    },
+    "sparwelt.de": {
+        "timestamp": 1788079939.533134,
+        "strategy": {
+            "reasoning": "1) Cookie Banner: No cookie consent banner or accept button is present in the provided HTML.\n2) Search Bar: Located a stray text input element with placeholder 'Suche': `input[placeholder='Suche'][type='input']` (or `input[placeholder='Suche']`). There is no search form wrapper or direct submit button associated specifically with this input field, so pressing Enter or submitting via null/Press key behavior is typical.",
+            "cookie_accept_selector": null,
+            "method": "search_bar",
+            "search_input_selector": "input[placeholder='Suche']",
+            "search_button_selector": null
+        }
+    },
+    "couponbox.com": {
+        "timestamp": 1788079947.738336,
+        "strategy": {
+            "reasoning": "1. Cookie Banner: Reviewed the HTML structure. No cookie consent banner or accept/agree button is present in the provided HTML snippets, so `cookie_accept_selector` is set to null.\n2. Search Input: Found a `<form class=\"NavigationSearchInput_root__BLEXj\">` containing an input `<input aria-label=\"Enter Shop...\" class=\"NavigationSearchInput_input__OH4V0\" name=\"q\" placeholder=\"Enter Shop...\" type=\"search\"/>`. The exact CSS selector for the input field is `input.NavigationSearchInput_input__OH4V0` (or `form.NavigationSearchInput_root__BLEXj input[name=\"q\"]`).\n3. Search Button: The search form does not contain a dedicated submit button. Submission is triggered by pressing Enter/Return within the input field. Therefore, `search_button_selector` is set to null.",
+            "cookie_accept_selector": null,
+            "method": "search_bar",
+            "search_input_selector": "form.NavigationSearchInput_root__BLEXj input.NavigationSearchInput_input__OH4V0",
+            "search_button_selector": null
+        }
+    },
+    "promocodius.es": {
+        "timestamp": 1788079975.9586592,
+        "strategy": {
+            "reasoning": "1. Cookie Banner: At the end of the HTML snippet, there is a stray button containing a span with text 'Aceptar': `<button class=\"btn btn-primary\" type=\"button\"><span class=\"text-strong text-nowrap\">Aceptar</span></button>`. We can select this button using `.btn.btn-primary:has(span)` or `button.btn-primary:has(span.text-nowrap)` or by targeting its text structure.\n2. Search Input: Found `<input aria-label=\"Busca\" class=\"form-control\" id=\"search-field\" name=\"search\" placeholder=\"Busca\" role=\"combobox\" type=\"search\"/>`. The ID selector `#search-field` or `input#search-field` is specific and precise.\n3. Search Button: Found `<button aria-label=\"Encuentra\" class=\"btn btn-primary\" id=\"search-addon\" name=\"search-btn\" type=\"submit\"></button>`. The ID selector `#search-addon` or `button#search-addon` is specific and precise.",
+            "cookie_accept_selector": "button.btn-primary:has(span)",
+            "method": "search_bar",
+            "search_input_selector": "#search-field",
+            "search_button_selector": "#search-addon"
+        }
+    },
+    "promopro.co.uk": {
+        "timestamp": 1788079995.90885,
+        "strategy": {
+            "reasoning": "Inspecting the HTML content, there is no cookie consent banner present, so 'cookie_accept_selector' is set to null. A search input element is found with class 'mheader-search-input' and name 'keyword' (`input.mheader-search-input[name=\"keyword\"]`). There is no explicit submit button associated with the search input form/wrapper in the HTML snippet provided, so 'search_button_selector' is set to null.",
+            "cookie_accept_selector": null,
+            "method": "search_bar",
+            "search_input_selector": "input.mheader-search-input[name=\"keyword\"]",
+            "search_button_selector": null
+        }
+    },
+    "rabattcode.de": {
+        "timestamp": 1788080124.329349,
+        "strategy": {
+            "reasoning": "In the provided HTML snippet, there is no cookie consent banner or accept button present. However, there is a clear search form with id 'header-search'. Inside this form, the text input element has the id 'voucher-search' (css: '#voucher-search' or 'form#header-search input#voucher-search'), and the submit button is inside a span with class 'input-group-btn' (css: 'form#header-search button[type=\"submit\"]').",
+            "cookie_accept_selector": null,
+            "method": "search_bar",
+            "search_input_selector": "#voucher-search",
+            "search_button_selector": "form#header-search button[type=\"submit\"]"
+        }
+    },
+    "lovecoupons.com.au": {
+        "timestamp": 1788080134.770248,
+        "strategy": {
+            "reasoning": "1. Cookie Banner: Identified `#accept-cookies` button ('Accept all cookies') in the DOM.\n2. Search Input: Found multiple search inputs including a primary modal/global search input `<input id=\"SearchInput\" class=\"SearchInput ...\" />` as well as header/mobile search inputs (`#site-search-mobile`, `input.Search`). `#SearchInput` is an explicit unique ID for the main search input.\n3. Search Button / Toggle: Found `<button aria-label=\"Search\" class=\"Search ...\">` in the header or search triggers.",
+            "cookie_accept_selector": "#accept-cookies",
+            "method": "search_bar",
+            "search_input_selector": "#SearchInput",
+            "search_button_selector": "button.Search[aria-label=\"Search\"]"
+        }
+    },
+    "bravosleva.cz": {
+        "timestamp": 1788080166.4132211,
+        "strategy": {
+            "reasoning": "In the provided pruned HTML, there is a search input element `<input type=\"search\" name=\"search\" ...>` with placeholder 'Nap\u0159. Answear, Notino, Dr. Max'. There is also a stray button for search: `<button type=\"button\" class=\"search-icon inline-block w-[26px] h-[26px]\" aria-label=\"Hledat\"></button>`. There is no active cookie consent banner with an accept button (only a footer link to cookie settings 'Nastaven\u00ed soubor\u016f cookie'). Therefore, cookie_accept_selector is set to null.",
+            "cookie_accept_selector": null,
+            "method": "search_bar",
+            "search_input_selector": "input[type=\"search\"][name=\"search\"]",
+            "search_button_selector": "button.search-icon"
+        }
+    },
+    "bravodescuento.es": {
+        "timestamp": 1788080175.3834019,
+        "strategy": {
+            "reasoning": "No cookie banner elements are present in the pruned HTML, so cookie_accept_selector is set to null. For search functionality, there are stray search input elements (`input[name=\"search\"]`) and a search icon button (`button.search-icon`). Specifically, `input[name=\"search\"][aria-label=\"Busca una marca y descubre nuestros descuentos\"]` targets the primary desktop search input field, and `button[aria-label=\"Buscar\"]` or `button.search-icon` targets the search trigger button.",
+            "cookie_accept_selector": null,
+            "method": "search_bar",
+            "search_input_selector": "input[name=\"search\"][aria-label=\"Busca una marca y descubre nuestros descuentos\"]",
+            "search_button_selector": "button.search-icon"
+        }
+    },
+    "bravovoucher.co.uk": {
+        "timestamp": 1788080201.708051,
+        "strategy": {
+            "reasoning": "1. Cookie Banner: There is a 'Cookie Settings' button at the bottom, but no visible cookie consent banner or 'Accept' button in the provided HTML snippet. Therefore, cookie_accept_selector is set to null.\n2. Search Inputs/Buttons: There are search input elements present: `input[name='search'][placeholder='E.g. Zafiro Hotels']` (or `input[name='search']`), and a search button `button[aria-label='Search'].search-icon`. Thus, a search bar functionality is present and method is 'search_bar'.",
+            "cookie_accept_selector": null,
+            "method": "search_bar",
+            "search_input_selector": "input[name=\"search\"]",
+            "search_button_selector": "button.search-icon"
+        }
+    },
+    "bravodeal.com": {
+        "timestamp": 1788080225.602196,
+        "strategy": {
+            "reasoning": "I analyzed the provided HTML snippet for interactive elements:\n1. Search Bar: There are stray search input elements present, such as `input[name=\"search\"][type=\"search\"]`. There is also a dedicated search button `button[aria-label=\"Search\"].search-icon`.\n2. Cookie Banner: There is a button labeled 'Change your consent choices', but no explicit cookie banner accept/agree button present in the provided HTML snippet.\n\nTherefore, the method is 'search_bar', using `input[name=\"search\"]` for the input field and `button[aria-label=\"Search\"]` for the search button.",
+            "cookie_accept_selector": null,
+            "method": "search_bar",
+            "search_input_selector": "input[name=\"search\"]",
+            "search_button_selector": "button[aria-label=\"Search\"]"
+        }
+    },
+    "trustdeals.de": {
+        "timestamp": 1788080258.274223,
+        "strategy": {
+            "reasoning": "The HTML structure contains a search form inside the header menu under div `#search`. The form is `<form class=\"search-form\" role=\"search\">`. Inside this form, there is a text input `<input class=\"form-control ui-autocomplete-input\" name=\"s\" placeholder=\"Finde deinen Store, zum Beispiel Amazon, Nike, Farfetch, etc.\" type=\"text\"/>` and a submit button `<button class=\"font-icon\">Suchen</button>`. Therefore, exact CSS selectors are `form.search-form input[name=\"s\"]` (or `.search-form input[name=\"s\"]`) for the search input and `form.search-form button.font-icon` for the search button. While there are some stray checkbox inputs indicating CookieScript presence (`cookiescript_checkbox_input`), no actual accept/agree button element is present in the provided pruned HTML snippets.",
+            "cookie_accept_selector": null,
+            "method": "search_bar",
+            "search_input_selector": "form.search-form input[name=\"s\"]",
+            "search_button_selector": "form.search-form button.font-icon"
+        }
+    },
+    "acties.nl": {
+        "timestamp": 1788080288.459477,
+        "strategy": {
+            "reasoning": "1. Cookie Banner: Identified Cookiebot elements in the HTML. Found the accept button with ID 'CybotCookiebotDialogBodyLevelButtonAccept', which corresponds to the CSS selector '#CybotCookiebotDialogBodyLevelButtonAccept'.\n2. Search Input: Found a main search section within div `#search` containing a form with an input `input.form-control[name=\"q\"]`. The selector `#search form input[name=\"q\"]` accurately isolates the search input field.\n3. Search Button: Located the submit button inside the same search form within `#search`, which is `button.font-icon`. The exact selector `#search form button` target the search button.",
+            "cookie_accept_selector": "#CybotCookiebotDialogBodyLevelButtonAccept",
+            "method": "search_bar",
+            "search_input_selector": "#search form input[name=\"q\"]",
+            "search_button_selector": "#search form button"
+        }
+    },
+    "kortingscode.nl": {
+        "timestamp": 1788080323.530784,
+        "strategy": {
+            "reasoning": "1. Cookie Banner: There is a button with text 'Cookie-voorkeuren' (class `._22x2jch`), but no accept/agree consent banner button present in the HTML snippet. Thus, `cookie_accept_selector` is null.\n2. Search Input: Found an `<input>` element with `placeholder=\"Zoek jouw favoriete shop\"` and class `._1jdhsle0._1jdhsle2._1ab8hhd2`. Selecting by placeholder `input[placeholder=\"Zoek jouw favoriete shop\"]` or class `input._1jdhsle0` yields the search input.\n3. Search Button: There is no distinct submit button present for the search input in the snippet, so `search_button_selector` is null (submission happens via pressing Enter).",
+            "cookie_accept_selector": null,
+            "method": "search_bar",
+            "search_input_selector": "input[placeholder=\"Zoek jouw favoriete shop\"]",
+            "search_button_selector": null
+        }
+    },
+    "vouchercodes.co.uk": {
+        "timestamp": 1788080661.7894871,
+        "strategy": {
+            "reasoning": "1. Cookie Banner: Found an 'Accept All' button for the OneTrust cookie banner with the explicit ID 'onetrust-accept-btn-handler', giving the selector '#onetrust-accept-btn-handler'.\n2. Search Input: Multiple search forms exist. A clear input element with a unique ID is present: <input id=\"appSearchPlaceholderInput\" name=\"q\" placeholder=\"Start searching\" type=\"text\"/>, giving the precise selector '#appSearchPlaceholderInput' (or 'input#appSearchPlaceholderInput'). Alternatively, 'form[role=\"search\"] input[name=\"q\"]' can target the role-based search input. Using the unique ID '#appSearchPlaceholderInput' is the most robust and explicit option.\n3. Search Button: Found a submit button inside the role='search' form: 'form[role=\"search\"] button'.",
+            "cookie_accept_selector": "#onetrust-accept-btn-handler",
+            "method": "search_bar",
+            "search_input_selector": "#appSearchPlaceholderInput",
+            "search_button_selector": "form[role=\"search\"] button"
+        }
+    }
+}

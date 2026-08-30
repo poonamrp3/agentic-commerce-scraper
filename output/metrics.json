@@ -1,0 +1,23 @@
+{
+  "coverage_pct": 0.0,
+  "total_tasks": 1,
+  "sites_cracked": 0,
+  "sites_failed": 1,
+  "total_offers_extracted": 0,
+  "avg_bandwidth_kb_per_site": 426.4,
+  "total_bandwidth_mb": 0.42,
+  "proxy_cost_usd": 0.0012,
+  "llm_tokens_total": 0,
+  "llm_cost_usd": 0.0,
+  "total_cost_usd": 0.0012,
+  "cost_per_10k_projection_usd": 12.2,
+  "throughput_rows_per_min": 8.5,
+  "avg_retries": 0.0,
+  "avg_duration_seconds": 7.1,
+  "failures": [
+    {
+      "site": "bravodescuento.es",
+      "reason": "No LLM configured; page scan found no codes"
+    }
+  ]
+}
