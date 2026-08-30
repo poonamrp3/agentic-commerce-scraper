@@ -32,7 +32,7 @@
 ---
 
 ## 1. Architecture
-> **Note:** Please refer to the `architecture_diagram.md` file in this repository (or the attached image) for a complete visual flowchart of this system's pipeline.
+> **Note:** Please refer to [architecture_diagram.md](./architecture_diagram.md) in this repository (or the attached image) for a complete visual flowchart of this system's pipeline.
 
 This system is an **Agentic Pipeline** built on **LangGraph**, utilizing Python's `asyncio` for high-throughput concurrency and Playwright for headless browser execution. 
 
