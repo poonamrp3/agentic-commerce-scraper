@@ -40,18 +40,22 @@ Rather than relying on brittle, hardcoded CSS selectors (which break when sites 
 
 ## 2. Beating the Bot Wall
 To bypass standard protections, the Navigator agent is configured with Playwright stealth arguments (`--disable-blink-features=AutomationControlled`). However, for enterprise bot walls (Cloudflare, Datadome) on sites like `cupones.es` and `wired.com`, raw requests fail.
+
 **The Solution:** The pipeline is architected to seamlessly route traffic through rotating Residential Proxies (e.g., Bright Data/Oxylabs) by simply injecting the `PROXY_URL` environment variable into the Playwright context. 
 
 ## 3. Dynamic Code Reveal & Pop-ups
 Coupon sites aggressively hide codes behind "Click to Reveal" buttons that intentionally trigger affiliate link pop-ups in new tabs. 
+
 **The Solution:** Agent 4 handles this entirely dynamically via its ReAct loop. If the Agent decides to click a selector, the action node immediately checks `context.pages`. If a rogue affiliate tab was spawned, Playwright instantly kills the new tab, brings the original tab to the front, and feeds the newly revealed modal DOM back into the LLM for final extraction. The Agent also utilizes a strict `clicked_selectors` memory array to guarantee it never gets caught in an infinite loop.
 
 ## 4. Bandwidth Strategy
 Residential proxies charge by the gigabyte. A single coupon page loads megabytes of tracking scripts, hero images, fonts, and autoplaying video ads.
+
 **The Solution:** The Navigator agent utilizes Playwright's `route.intercept` feature to aggressively abort network requests for `image`, `media`, `font`, and `stylesheet` resource types. This strips the page down to pure HTML, reducing bandwidth consumption by over 90% and maximizing the ROI of every gigabyte billed by the proxy provider.
 
 ## 5. Security & Prompt Injection
 Scraped HTML is treated as hostile input. A compromised site could plant hidden `<div>` tags instructing the LLM to output fake codes or ignore previous instructions.
+
 **The Solution:** To neutralize this, the HTML is sandboxed within `<untrusted_content>` delimiters in the prompt. The System Prompt contains strict override directives ensuring that the Agent ignores any commands attempting to hijack the pipeline from within those tags.
 
 ## 6. Scale Plan, Resilience & Cost Model
@@ -62,6 +66,7 @@ Scraped HTML is treated as hostile input. A compromised site could plant hidden 
 
 ## 7. Determinism & DOM Ordering
 The assessment explicitly requires determinism (a re-run must yield the same codes). While the LLMs are locked to `temperature=0` to prevent hallucination, relying purely on an LLM to select the "next" button from a pruned HTML string introduces a subtle risk: if the HTML parser serializes the DOM in a slightly different order, the LLM might select a different candidate.
+
 **The Mitigation:** To enforce strict determinism, the system uses a stateful memory guardrail (`clicked_selectors`) to rule out past decisions. However, for a production V2, the ideal architecture completely decouples *classification* from *ranking*. The LLM's job should shrink to purely classifying candidates ("is this a coupon button?"), while a deterministic Python script strictly clicks the valid candidates in raw, top-to-bottom DOM order. By defining this intellectual boundary, we guarantee that the LLM's non-deterministic nature never leaks into the traversal routing.
 
 ## 8. Coverage Results and Failure Analysis
