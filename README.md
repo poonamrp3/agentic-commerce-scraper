@@ -12,8 +12,10 @@
    cp .env.example .env
    ```
    Open the `.env` file and populate it with:
-   - Your OpenAI / Gemini API Keys.
-   - Your `PROXY_URL` (e.g., BrightData, Oxylabs, Webshare) to bypass Cloudflare/Datadome bot walls.
+   - `OPENAI_API_KEY`: Your OpenAI API key (or compatible API key).
+   - `OPENAI_MODEL`: The model you wish to use (defaults to `gpt-4o-mini`).
+   - `PROXY_URL`: Your residential proxy URL (e.g., BrightData, Oxylabs) to bypass Cloudflare bot walls.
+   
    *Note: Secrets should never be committed to code. The repository `.gitignore` ensures `.env` stays secure.*
 
 3. **Run the Scraper:**
