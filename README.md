@@ -1,5 +1,34 @@
 # Curatte - Agentic Commerce Scraper
 
+## Setup & Execution (How to Run)
+1. **Install Dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   playwright install chromium
+   ```
+2. **Configure Environment Variables:**
+   You MUST set your LLM and Proxy keys before running. Copy the provided `.env.example` file to create your `.env` file:
+   ```bash
+   cp .env.example .env
+   ```
+   Open the `.env` file and populate it with:
+   - Your OpenAI / Gemini API Keys.
+   - Your `PROXY_URL` (e.g., BrightData, Oxylabs, Webshare) to bypass Cloudflare/Datadome bot walls.
+   *Note: Secrets should never be committed to code. The repository `.gitignore` ensures `.env` stays secure.*
+
+3. **Run the Scraper:**
+   Run the full concurrent pipeline for a specific brand:
+   ```bash
+   python main.py --brand adidas
+   ```
+   *(Optional)* If you want to see the detailed agentic decision logs instead of the clean UI, append the verbose flag:
+   ```bash
+   python main.py --brand adidas --verbose
+   ```
+   Check the `output/` directory for the extracted `{brand}_offers.json` and performance metrics.
+
+---
+
 ## 1. Architecture
 This system is an **Agentic Pipeline** built on **LangGraph**, utilizing Python's `asyncio` for high-throughput concurrency and Playwright for headless browser execution. 
 
@@ -41,12 +70,10 @@ The system successfully executed the autonomous loop. On sites where genuine alp
 1. **Affiliate Traps:** Sites like `trustdeals.de` do not host alphanumeric codes, utilizing "Get Deal" auto-apply redirects instead. The Agent correctly identified these as `dead_end`s and safely aborted the loop rather than polluting the dataset with false positives or getting lost on the brand's checkout page.
 2. **Hidden Elements:** On a few sites, the Agent accurately identified the correct CSS selector, but Playwright threw `Element is not visible` errors (likely due to mobile-first responsive menus or obfuscated overlays hiding the element from headless viewports).
 
-## 8. With more time, I would...
-1. **Multimodal Vision Agents:** HTML pruning (needed to fit context windows) occasionally deletes the exact elements containing the codes if class names are obfuscated. Upgrading the Extractor to a Vision model (passing Playwright screenshots instead of HTML) would allow the AI to "read" the code exactly as a human does, completely bypassing anti-scraping DOM obfuscation.
-2. **Automated Checkout Verification:** Build an independent pipeline that uses the extracted codes, navigates to the brand's official store cart API, and programmatically verifies if the code applies a discount, ensuring 100% confidence in the data.
-
-## How to Run
-1. Install dependencies: `pip install -r requirements.txt` and `playwright install`
-2. Configure `.env` (See `.env.example`)
-3. Run for a single brand: `python main.py --brand adidas`
-4. Run batch test: `python batch_runner.py --limit 3`
+## 9. V2 Roadmap & Future Improvements (With more time...)
+If given a longer runway, I would evolve this MVP into an enterprise-grade V2 architecture focusing on scale and intelligent routing:
+1. **AWS Serverless Deployment:** To process 10,000+ brands rapidly, I would migrate away from local `asyncio` loops toward an Event-Driven Architecture using AWS SQS and AWS Lambda. Each Lambda function would spin up a headless browser, process a small batch of brands concurrently, and die, offering infinite horizontal scalability.
+2. **LLM Model Routing:** Rather than running a monolithic model for all steps, I would implement dynamic model routing. Fast, cheap models (like Claude Haiku or Gemini Flash) would be routed to simpler classification tasks (Agent 2), saving the expensive, heavy models (like GPT-4o) purely for complex DOM reasoning (Agent 4).
+3. **Frontend UI & TypedDict Refactoring:** Transition the CLI into a visual dashboard (e.g., React/Next.js) showing the agents working in real-time, backed by a cleaner, more strictly typed Pydantic implementation for LangGraph's state management.
+4. **Enterprise Residential Proxies:** Connect an enterprise proxy rotator (like BrightData Web Unlocker) to natively handle CAPTCHAs and JS challenges at the network layer, dramatically improving the success rate on highly restrictive domains like `wired.com`.
+5. **Multimodal Vision Agents:** HTML pruning occasionally deletes the exact elements containing the codes if class names are obfuscated. Upgrading the Extractor to a Vision model (passing Playwright screenshots instead of HTML) would allow the AI to "read" the code exactly as a human does, completely bypassing anti-scraping DOM obfuscation.
