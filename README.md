@@ -1,4 +1,4 @@
-# Curatte - Agentic Commerce Scraper
+# Agentic Commerce Scraper
 
 ## Setup & Execution (How to Run)
 1. **Install Dependencies:**
